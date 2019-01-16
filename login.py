@@ -1,9 +1,11 @@
+from datetime import date
 import os
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
 def pressEnter(driver):
     enterKey2 = driver.find_element_by_name("SUBMIT2")
     enterKey2.click()
@@ -15,9 +17,9 @@ def clickId(driver, id):
     elem2.click()
 options = Options()
 options.headless = True
-user = os.environ['USERNAME']
+user = os.environ['YUSER']
 passW = os.environ['PASS']
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(options=options)
 driver.implicitly_wait(10)
 driver.get("https://webadvisor.allegheny.edu/")
 clickId(driver,"acctLogin")
@@ -38,15 +40,34 @@ for row in elem3.find_elements_by_xpath(".//tr"):
 filtList = [x for x in jobList if x!=[]]
 filteredList = [[item[5],item[6],item[7]] for item in filtList]
 print(str(filteredList))
-choice = input('Please pick a job')  
+choice = int(input('Please pick a job'))  
 jobid = f"JS_LIST_VAR8_{choice}"
 clickId(driver, jobid)
 pressEnter(driver)
-clickId(driver, 'LIST_VAR1_7')
+months = [0,7,8,9,10,11,12,1,2,3,4,5,6]
+monthSelection = int(input("Please enter your month"))
+choice = months[monthSelection]
+monthid = f"LIST_VAR1_{choice}"
+clickId(driver, monthid)
 pressEnter(driver)
-hoursInput = driver.find_element_by_id('LIST_VAR2_4')
-hoursInput.clear()
+startDateid = driver.find_element_by_id('LIST_VAR1_1').text.split('/')
+print(startDateid)
+startDate = date(int(startDateid[2]),int(startDateid[0]),int(startDateid[1]))
+numTabsC = date.today() - startDate
+tabStart = driver.find_element_by_id("LIST_VAR2_1")
+tabStart.click()
+print(str(numTabsC.days))
+days = numTabsC.days 
+print(str(days))
+actions = ActionChains(driver)
+for _ in range(days):
+    actions.send_keys(Keys.TAB)
+actions.perform()
+actions.reset_actions()
+faction = ActionChains(driver)
+#hoursInput = driver.find_element_by_id('LIST_VAR2_4')
+#hoursInput.clear()
 hours = input("Enter the Amount of Hours for today")
-hoursInput.send_keys(hours)
+faction.send_keys(hours).perform()
 pressEnter(driver)
 driver.close()
