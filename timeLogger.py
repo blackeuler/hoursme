@@ -7,14 +7,17 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 
-class timeLogger():
+class TimeLogger():
     def __init__(self):
         #Create a Headless Browser
         options = Options()
         options.headless = True
         self.driver = webdriver.Firefox(options=options)
         self.driver.implicitly_wait(1)
+        self.driver.set_page_load_timeout(10)
         self.driver.get("https://webadvisor.allegheny.edu/")
+        self.user = None
+        self.passw = None
     
 
     def run(self):
@@ -25,7 +28,19 @@ class timeLogger():
         self.goToDay(date.today())
         self.enterHours(8)
         self.close()
+    def webRun(self):
+        self.login(self.user,self.passw)
+        self.jobMenu()
+        jobs = self.showJobs()
+        return jobs
+     
 
+    def showAllJobs(self):
+        self.login(os.environ['YUSER'],os.environ['PASS'])
+        self.jobMenu()
+        jobs = self.selectJob(2)
+        self.close()
+        return jobs
 
     def login(self, user, passw):
         '''Logins in User to WebAdvisor Account'''
@@ -55,6 +70,14 @@ class timeLogger():
         jobid = f"JS_LIST_VAR8_{jobIndex}"
         self.clickId(jobid)
         self.pressEnter()
+        return filteredList
+
+    def showJobs(self):
+        jobList = []
+        elem3 = self.driver.find_element_by_xpath("/html/body/div/div[2]/div[4]/div[4]/form/div[1]/div/table/tbody/tr[2]/td/div/table/tbody")
+        for row in elem3.find_elements_by_xpath(".//tr"):
+            jobList.append([td.text for td in row.find_elements_by_tag_name("td")])
+        return jobList
 
     def selectMonth(self,month):
         months = [0,7,8,9,10,11,12,1,2,3,4,5,6]
@@ -92,5 +115,3 @@ class timeLogger():
         elem2.click()
     def close(self):
         self.driver.close()
-x = timeLogger()
-x.run()
