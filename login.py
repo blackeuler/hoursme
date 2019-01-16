@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+
 def pressEnter(driver):
     enterKey2 = driver.find_element_by_name("SUBMIT2")
     enterKey2.click()
@@ -20,7 +21,7 @@ options.headless = True
 user = os.environ['YUSER']
 passW = os.environ['PASS']
 driver = webdriver.Firefox(options=options)
-driver.implicitly_wait(10)
+driver.implicitly_wait(3)
 driver.get("https://webadvisor.allegheny.edu/")
 clickId(driver,"acctLogin")
 username = driver.find_element_by_name("USER.NAME")
@@ -65,8 +66,6 @@ for _ in range(days):
 actions.perform()
 actions.reset_actions()
 faction = ActionChains(driver)
-#hoursInput = driver.find_element_by_id('LIST_VAR2_4')
-#hoursInput.clear()
 hours = input("Enter the Amount of Hours for today")
 faction.send_keys(hours).perform()
 pressEnter(driver)
