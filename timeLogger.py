@@ -35,13 +35,6 @@ class TimeLogger():
         return jobs
      
 
-    def showAllJobs(self):
-        self.login(os.environ['YUSER'],os.environ['PASS'])
-        self.jobMenu()
-        jobs = self.selectJob(2)
-        self.close()
-        return jobs
-
     def login(self, user, passw):
         '''Logins in User to WebAdvisor Account'''
         self.clickId("acctLogin")
@@ -51,6 +44,11 @@ class TimeLogger():
         password.send_keys(str(passw))
         self.pressEnter()
     
+    def webLogin(self):
+        self.login(self.user,self.passw)
+        self.jobMenu()
+        
+    
     def jobMenu(self):
         '''Navigates driver to jobMenu '''
         self.clickPartial("Students")
@@ -59,30 +57,26 @@ class TimeLogger():
         year.select_by_index(1)
         self.pressEnter()
     
-    def selectJob(self, jobIndex):
-        jobList = []
-        elem3 = self.driver.find_element_by_xpath("/html/body/div/div[2]/div[4]/div[4]/form/div[1]/div/table/tbody/tr[2]/td/div/table/tbody")
-        for row in elem3.find_elements_by_xpath(".//tr"):
-            jobList.append([td.text for td in row.find_elements_by_tag_name("td")])
-        filtList = [x for x in jobList if x!=[]]
-        filteredList = [[item[5],item[6],item[7]] for item in filtList]
-        print(str(filteredList))  
+    def selectJob(self, jobIndex): 
         jobid = f"JS_LIST_VAR8_{jobIndex}"
+        print(f"Selecting Job{jobid}")
         self.clickId(jobid)
         self.pressEnter()
-        return filteredList
 
     def showJobs(self):
         jobList = []
         elem3 = self.driver.find_element_by_xpath("/html/body/div/div[2]/div[4]/div[4]/form/div[1]/div/table/tbody/tr[2]/td/div/table/tbody")
         for row in elem3.find_elements_by_xpath(".//tr"):
             jobList.append([td.text for td in row.find_elements_by_tag_name("td")])
-        return jobList
+        filtList = [x for x in jobList if x!=[]]
+        filteredList = [[item[5],item[6],item[7]] for item in filtList]
+        return filteredList
 
     def selectMonth(self,month):
         months = [0,7,8,9,10,11,12,1,2,3,4,5,6]
         month = months[month]
         monthid = f"LIST_VAR1_{month}"
+        print(f"Selecting{month}")
         self.clickId(monthid)
         self.pressEnter()
     

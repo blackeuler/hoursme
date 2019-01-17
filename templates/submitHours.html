@@ -11,20 +11,18 @@
     <title>Hours Made Easy!</title>
   </head>
   <body>
-    <form>
+    <form method="POST" action="/done">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Select Workplace</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select required name="workplace" class="form-control" id="exampleFormControlSelect1">
+            {% for job in jobs %}
+            <option value={{ loop.index0 }}>Title:{{job[0]}} Supervisor:{{job[1]}} Department:{{job[2]}}</option>
+            {% endfor %}
           </select>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect2">Hours</label>
-          <select multiple class="form-control" id="exampleFormControlSelect2">
+          <select multiple required name="hours" class="form-control" id="exampleFormControlSelect2">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -33,9 +31,9 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Example textarea</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <input required type="date" name="day">
         </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </form>
 
     <!-- Optional JavaScript -->
