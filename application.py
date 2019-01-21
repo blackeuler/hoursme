@@ -31,6 +31,8 @@ def login():
     return redirect(url_for('home',errors=session["errors"]))
 @app.route("/done", methods=['POST'])
 def done():
+    print(seleniumSesssion)
+    print(session)
     try:
         seleniumSesssion[session["user"]].selectJob(int(request.form['workplace'])+1)
     except KeyError:
