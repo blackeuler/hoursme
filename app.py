@@ -12,7 +12,10 @@ seleniumSesssion={}
 
 @app.route("/", methods=['GET',])
 def home(errors=""):
-    return render_template("login.html", errors = errors)
+    errors = request.args.get('errors',None)
+    messages  = request.args.get('messages',None)
+
+    return render_template("login.html", errors = errors, messages = messages)
 @app.route("/login",methods=['POST'])
 def login():
     session["user"] = request.form['user']
@@ -24,7 +27,7 @@ def login():
     if loginSuccess:    
         jobs = seleniumSesssion[session["user"]].showJobs()
         return render_template("submitHours.html",jobs = jobs)
-    session["errors"] = ["Wrong Password","car"]
+    session["errors"] = ["Wrong Password Please try again"]
     return redirect(url_for('home',errors=session["errors"]))
 @app.route("/done", methods=['POST'])
 def done():
@@ -41,7 +44,7 @@ def done():
         seleniumSesssion[session["user"]].enterHours(request.form['hours'])
         seleniumSesssion[session["user"]].close()
         session.pop('user', None)
-        return redirect(url_for('home'))
+        return redirect(url_for('home',messages="hours logged succesfully"))
     except:
         print("something went wrong")
         return redirect(url_for('home',errors=['Did not find TimeSheet']))
