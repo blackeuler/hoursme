@@ -5,7 +5,7 @@ from datetime import date
 import datetime
 
 app = Flask(__name__)
-app.secret_key = 'hello'
+app.secret_key = 'hellokljlkjkl'
 
 seleniumSesssion={}
 
