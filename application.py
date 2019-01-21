@@ -15,7 +15,8 @@ def home(errors=""):
     errors = request.args.get('errors',None)
     messages  = request.args.get('messages',None)
 
-    return render_template("login.html", errors = errors, messages = messages)
+    # return render_template("login.html", errors = errors, messages = messages)
+    return "hello world"
 @app.route("/login",methods=['POST'])
 def login():
     session["user"] = request.form['user']
