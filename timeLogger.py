@@ -13,7 +13,8 @@ class TimeLogger():
         #Create a Headless Browser
         options = Options()
         options.add_argument("--headless")
-        options.binary_location = GOOGLE_CHROME_BIN
+        options.binary_location =  os.environ['GOOGLE_CHROME_SHIM']
+        DRIVER_PATH = os.environ['DRIVER_PATH']
 
         self.driver = webdriver.Chrome(executable_path=DRIVER_PATH,chrome_options=options)
         self.driver.implicitly_wait(1)
