@@ -4,7 +4,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 
@@ -12,8 +12,8 @@ class TimeLogger():
     def __init__(self):
         #Create a Headless Browser
         options = Options()
-        options.headless = True
-        self.driver = webdriver.Firefox(options=options)
+        options.add_argument("--headless")
+        self.driver = webdriver.Chrome(chrome_options=options)
         self.driver.implicitly_wait(1)
         self.driver.set_page_load_timeout(10)
         self.driver.get("https://webadvisor.allegheny.edu/")
