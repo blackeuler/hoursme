@@ -13,7 +13,9 @@ class TimeLogger():
         #Create a Headless Browser
         options = Options()
         options.add_argument("--headless")
-        self.driver = webdriver.Chrome(chrome_options=options)
+        options.binary_location = GOOGLE_CHROME_BIN
+
+        self.driver = webdriver.Chrome(executable_path=DRIVER_PATH,chrome_options=options)
         self.driver.implicitly_wait(1)
         self.driver.set_page_load_timeout(10)
         self.driver.get("https://webadvisor.allegheny.edu/")
