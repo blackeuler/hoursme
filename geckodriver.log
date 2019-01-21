@@ -3310,3 +3310,11 @@ console.error: BroadcastService:
 1548093830421	Marionette	WARN	TLS certificate errors will be ignored for this session
 1548093847111	Marionette	INFO	Stopped listening on port 41997
 [Parent 19234, Gecko_IOThread] WARNING: pipe error (74): Connection reset by peer: file /build/firefox-wWf_B4/firefox-64.0+build3/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 363
+1548094546794	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.BA4Qjh8rTDmy"
+*** You are running in headless mode.
+1548094547234	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1548094547235	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1548094550433	Marionette	INFO	Listening on port 33633
+1548094550508	Marionette	WARN	TLS certificate errors will be ignored for this session
+1548094568026	Marionette	INFO	Stopped listening on port 33633
+[Parent 21464, Gecko_IOThread] WARNING: pipe error (74): Connection reset by peer: file /build/firefox-wWf_B4/firefox-64.0+build3/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 363
