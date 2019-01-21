@@ -10,20 +10,23 @@ app.secret_key = 'hello'
 seleniumSesssion={}
 
 
-@app.route("/home", methods=['GET',])
+@app.route("/", methods=['GET',])
 def home():
     return render_template("login.html")
 @app.route("/login",methods=['POST'])
 def login():
     session["user"] = request.form['user']
+    print(session["user"])
     seleniumSesssion[session["user"]] = TimeLogger()
     print(len(seleniumSesssion))
     seleniumSesssion[session["user"]].user = session["user"]
     seleniumSesssion[session["user"]].passw = request.form['pass']
-
-    seleniumSesssion[session["user"]].webLogin()
-    jobs = seleniumSesssion[session["user"]].showJobs()
-    return render_template("submitHours.html",jobs = jobs)
+    loginSuccess = seleniumSesssion[session["user"]].webLogin()
+    print (loginSuccess)
+    if loginSuccess:    
+        jobs = seleniumSesssion[session["user"]].showJobs()
+        return render_template("submitHours.html",jobs = jobs)
+    return redirect(url_for('home'))
 @app.route("/done", methods=['POST'])
 def done():
 
@@ -36,4 +39,4 @@ def done():
     seleniumSesssion[session["user"]].close()
     session.pop('user', None)
     return redirect(url_for('home'))
-    return render_template("login.html")
+    

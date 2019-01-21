@@ -23,11 +23,9 @@
         <div class="form-group">
           <label for="exampleFormControlSelect2">Hours</label>
           <select multiple required name="hours" class="form-control" id="exampleFormControlSelect2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            {% for option in range(30) %}
+              <option>{{option}}</option>
+            {% endfor %}
           </select>
         </div>
         <div class="form-group">

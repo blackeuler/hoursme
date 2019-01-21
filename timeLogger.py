@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 
 class TimeLogger():
     def __init__(self):
@@ -18,16 +19,8 @@ class TimeLogger():
         self.driver.get("https://webadvisor.allegheny.edu/")
         self.user = None
         self.passw = None
+        self.page = None
     
-
-    def run(self):
-        self.login(os.environ['YUSER'],os.environ['PASS'])
-        self.jobMenu()
-        self.selectJob(2)
-        self.selectMonth(1)
-        self.goToDay(date.today())
-        self.enterHours(8)
-        self.close()
     def webRun(self):
         self.login(self.user,self.passw)
         self.jobMenu()
@@ -37,17 +30,27 @@ class TimeLogger():
 
     def login(self, user, passw):
         '''Logins in User to WebAdvisor Account'''
+        if(self.page):
+            self.driver.close()
+            self.__init__()
         self.clickId("acctLogin")
         username = self.driver.find_element_by_name("USER.NAME")
         password = self.driver.find_element_by_name("CURR.PWD")
         username.send_keys(str(user))
         password.send_keys(str(passw))
         self.pressEnter()
-    
+        try:
+            self.driver.find_element_by_class_name("errorText")
+            return False
+        except NoSuchElementException:
+            self.page = 'loginDone'
+            return True
     def webLogin(self):
-        self.login(self.user,self.passw)
-        self.jobMenu()
-        
+
+        if(self.login(self.user,self.passw)):
+            self.jobMenu()
+            return True
+        return False        
     
     def jobMenu(self):
         '''Navigates driver to jobMenu '''
