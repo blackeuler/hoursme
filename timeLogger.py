@@ -80,14 +80,23 @@ class TimeLogger():
         month = months[month]
         monthid = f"LIST_VAR1_{month}"
         print(f"Selecting{month}")
-        self.clickId(monthid)
-        self.pressEnter()
-    
+        try:
+            self.clickId(monthid)
+            self.pressEnter()
+        except:
+            return False    
     def goToDay(self, day):
-        startDateid = self.driver.find_element_by_id('LIST_VAR1_1').text.split('/')
+        try:
+            startDateid = self.driver.find_element_by_id('LIST_VAR1_1').text.split('/')
+        except NoSuchElementException:
+            print("Couldnt find List VAR1_!")
+            return False
         startDate = date(int(startDateid[2]),int(startDateid[0]),int(startDateid[1]))
         numTabsC = day - startDate
-        self.clickId("LIST_VAR2_1")
+        try:
+            self.clickId("LIST_VAR2_1")
+        except NoSuchElementException:
+            return False
         days = numTabsC.days 
         actions = ActionChains(self.driver)
         for _ in range(days):
