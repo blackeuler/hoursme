@@ -26,6 +26,7 @@ def login():
     seleniumSesssion[session["user"]].user = session["user"]
     seleniumSesssion[session["user"]].passw = request.form['pass']
     session["errors"] = None
+    print(session)
     loginSuccess = seleniumSesssion[session["user"]].webLogin()
     if loginSuccess:    
         jobs = seleniumSesssion[session["user"]].showJobs()
