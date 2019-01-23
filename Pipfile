@@ -9,6 +9,7 @@ pylint = "*"
 [packages]
 selenium = "*"
 flask = "*"
+gevent = "*"
 
 [requires]
 python_version = "3.7"
